@@ -8,13 +8,14 @@ static const qreal alpha = M_PI/5.;
 static const qreal rad_to_deg = 180/M_PI;
 
 Viewer::Viewer(QWidget* parent)
-	: QWidget(parent), scale(100)
+	: QWidget(parent), scale(200)
 {
 }
 
-static const QPen pen(Qt::yellow,.05);
-static const QColor kite_color(Qt::red);
-static const QColor dart_color(Qt::blue);
+static const QPen pen(QColor(33,43,61),.05);
+//static const QColor kite_color(33,255,61);
+static const QColor kite_color(Qt::white);
+static const QColor dart_color(0,80,77);
 
 void drawHalfKite(QPainter& painter, unsigned int order);
 void drawHalfDart(QPainter& painter, unsigned int order);
@@ -122,7 +123,7 @@ void Viewer::paintEvent(QPaintEvent* event)
 	painter.translate(width()/2,height()/2);
 	painter.scale(scale,scale);
 
-	unsigned int order = 3;
+	unsigned int order = 5;
 	for (int kk=0; kk<5; kk++)
 	{
 		painter.save();
