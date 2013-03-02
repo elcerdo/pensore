@@ -1,7 +1,9 @@
 #include "viewer.h"
 
 #include <QPainter>
+#include <QWheelEvent>
 #include <cmath>
+#include <QDebug>
 
 static const qreal phi = (1.+sqrt(5))/2.;
 static const qreal alpha = M_PI/5.;
@@ -114,6 +116,12 @@ void drawDart(QPainter& painter, unsigned int order)
 	painter.restore();
 }
 
+void Viewer::wheelEvent(QWheelEvent* event)
+{
+	scale *= pow(0.95,event->delta()/120);
+	update();
+}
+
 void Viewer::paintEvent(QPaintEvent* event)
 {
 	Q_UNUSED(event);
@@ -123,15 +131,11 @@ void Viewer::paintEvent(QPaintEvent* event)
 	painter.translate(width()/2,height()/2);
 	painter.scale(scale,scale);
 
-	unsigned int order = 5;
+	unsigned int order = 7;
 	for (int kk=0; kk<5; kk++)
 	{
-		painter.save();
-		painter.rotate(2*kk*alpha*rad_to_deg);
+		painter.rotate(2*alpha*rad_to_deg);
 		drawKite(painter,order);
-		painter.translate(phi,0);
-		drawDart(painter,order);
-		painter.restore();
 	}
 }
 

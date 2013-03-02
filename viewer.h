@@ -10,6 +10,7 @@ class Viewer : public QWidget
 		Viewer(QWidget* parent=NULL);
 	protected:
 		void paintEvent(QPaintEvent* event);
+		void wheelEvent(QWheelEvent* event);
 		qreal scale;
 };
 
