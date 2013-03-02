@@ -10,7 +10,7 @@ static const qreal alpha = M_PI/5.;
 static const qreal rad_to_deg = 180/M_PI;
 
 Viewer::Viewer(QWidget* parent)
-	: QWidget(parent), scale(200)
+	: QWidget(parent), scale(200), translation_current(0,0), translation_start(0,0)
 {
 }
 
@@ -129,6 +129,7 @@ void Viewer::paintEvent(QPaintEvent* event)
 	painter.setRenderHint(QPainter::Antialiasing);
 	
 	painter.translate(width()/2,height()/2);
+	painter.translate(translation_current);
 	painter.scale(scale,scale);
 
 	unsigned int order = 7;
@@ -139,4 +140,16 @@ void Viewer::paintEvent(QPaintEvent* event)
 	}
 }
 
+
+void Viewer::mousePressEvent(QMouseEvent* event)
+{
+	translation_start = event->posF();
+}
+
+void Viewer::mouseMoveEvent(QMouseEvent* event)
+{
+	translation_current += event->posF()-translation_start;
+	translation_start = event->posF();
+	update();
+}
 

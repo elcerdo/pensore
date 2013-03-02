@@ -11,7 +11,11 @@ class Viewer : public QWidget
 	protected:
 		void paintEvent(QPaintEvent* event);
 		void wheelEvent(QWheelEvent* event);
+		void mousePressEvent(QMouseEvent* event);
+		void mouseMoveEvent(QMouseEvent* event);
 		qreal scale;
+		QPointF translation_current;
+		QPointF translation_start;
 };
 
 #endif
