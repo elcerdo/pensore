@@ -16,8 +16,35 @@ static const QPen pen(Qt::yellow,.05);
 static const QColor kite_color(Qt::red);
 static const QColor dart_color(Qt::blue);
 
+void drawHalfKite(QPainter& painter, unsigned int order);
+void drawHalfDart(QPainter& painter, unsigned int order);
+void drawKite(QPainter& painter, unsigned int order);
+void drawDart(QPainter& painter, unsigned int order);
+
 void drawHalfKite(QPainter& painter, unsigned int order)
 {
+	if (order)
+	{
+		painter.save();
+		painter.scale(1/phi,1/phi);
+		painter.rotate(alpha*rad_to_deg);
+		painter.translate(1,0);
+		painter.scale(-1,-1);
+		drawHalfDart(painter,order-1);
+		painter.restore();
+
+		painter.save();
+		painter.scale(1/phi,1/phi);
+		painter.rotate(alpha*rad_to_deg);
+		painter.translate(1+phi,0);
+		painter.rotate(alpha*rad_to_deg);
+		painter.scale(-1,-1);
+		drawKite(painter,order-1);
+		painter.restore();
+
+		return;
+	}
+
 	static const QPointF points[] = {
 		QPointF(0,0),
 		QPointF(phi*cos(alpha),phi*sin(alpha)),
@@ -34,6 +61,26 @@ void drawHalfKite(QPainter& painter, unsigned int order)
 
 void drawHalfDart(QPainter& painter, unsigned int order)
 {
+	if (order)
+	{
+		painter.save();
+		painter.scale(1/phi,1/phi);
+		painter.translate(phi,0);
+		painter.scale(-1,1);
+		drawHalfKite(painter,order-1);
+		painter.restore();
+
+		painter.save();
+		painter.scale(1/phi,1/phi);
+		painter.rotate(2*alpha*rad_to_deg);
+		painter.translate(1,0);
+		painter.rotate(2*alpha*rad_to_deg);
+		drawHalfDart(painter,order-1);
+		painter.restore();
+
+		return;
+	}
+
 	static const QPointF points[] = {
 		QPointF(0,0),
 		QPointF(cos(3*alpha),sin(3*alpha)),
@@ -75,13 +122,14 @@ void Viewer::paintEvent(QPaintEvent* event)
 	painter.translate(width()/2,height()/2);
 	painter.scale(scale,scale);
 
+	unsigned int order = 3;
 	for (int kk=0; kk<5; kk++)
 	{
 		painter.save();
 		painter.rotate(2*kk*alpha*rad_to_deg);
-		drawKite(painter,1);
+		drawKite(painter,order);
 		painter.translate(phi,0);
-		drawDart(painter,1);
+		drawDart(painter,order);
 		painter.restore();
 	}
 }
