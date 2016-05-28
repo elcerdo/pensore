@@ -10,7 +10,7 @@ class Viewer : public QWidget
         Viewer(QWidget* parent=NULL);
         void toggleEdges();
     protected:
-        void keypressEvent(QKeyEvent* event);
+        void keyPressEvent(QKeyEvent* event);
         void paintEvent(QPaintEvent* event);
         void wheelEvent(QWheelEvent* event);
         void mousePressEvent(QMouseEvent* event);
@@ -19,6 +19,7 @@ class Viewer : public QWidget
         QPointF translation_current;
         QPointF translation_start;
         bool display_edges;
+        qreal inner_radius;
     protected:
         void drawHalfKite(QPainter& painter, unsigned int order) const;
         void drawHalfDart(QPainter& painter, unsigned int order) const;

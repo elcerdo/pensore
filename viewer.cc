@@ -10,7 +10,7 @@ static const qreal alpha = M_PI/5.;
 static const qreal rad_to_deg = 180/M_PI;
 
 Viewer::Viewer(QWidget* parent)
-    : QWidget(parent), scale(200), translation_current(0,0), translation_start(0,0), display_edges(false)
+    : QWidget(parent), scale(200), translation_current(0,0), translation_start(0,0), display_edges(false), inner_radius(.5)
 {
 }
 
@@ -126,6 +126,33 @@ void Viewer::wheelEvent(QWheelEvent* event)
 {
     scale *= pow(0.95,event->delta()/120);
     update();
+}
+
+void Viewer::keyPressEvent(QKeyEvent* event)
+{
+    if (event->text() == "d")
+    {
+        display_edges = !display_edges;
+        event->accept();
+        update();
+        return;
+    }
+
+    if (event->text() == "+")
+    {
+        inner_radius += .05;
+        event->accept();
+        update();
+        return;
+    }
+
+    if (event->text() == "-")
+    {
+        inner_radius -= .05;
+        event->accept();
+        update();
+        return;
+    }
 }
 
 void Viewer::paintEvent(QPaintEvent* event)
