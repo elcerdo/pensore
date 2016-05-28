@@ -19,12 +19,7 @@ static const QPen pen(QColor(33,43,61),.05);
 static const QColor kite_color(Qt::white);
 static const QColor dart_color(0,80,77);
 
-void drawHalfKite(QPainter& painter, unsigned int order);
-void drawHalfDart(QPainter& painter, unsigned int order);
-void drawKite(QPainter& painter, unsigned int order);
-void drawDart(QPainter& painter, unsigned int order);
-
-void drawHalfKite(QPainter& painter, unsigned int order)
+void Viewer::drawHalfKite(QPainter& painter, unsigned int order) const
 {
     if (order)
     {
@@ -65,7 +60,7 @@ void drawHalfKite(QPainter& painter, unsigned int order)
     }
 }
 
-void drawHalfDart(QPainter& painter, unsigned int order)
+void Viewer::drawHalfDart(QPainter& painter, unsigned int order) const
 {
     if (order)
     {
@@ -104,7 +99,7 @@ void drawHalfDart(QPainter& painter, unsigned int order)
     }
 }
 
-void drawKite(QPainter& painter, unsigned int order)
+void Viewer::drawKite(QPainter& painter, unsigned int order) const
 {
     painter.save();
     drawHalfKite(painter,order);
@@ -113,7 +108,7 @@ void drawKite(QPainter& painter, unsigned int order)
     painter.restore();
 }
 
-void drawDart(QPainter& painter, unsigned int order)
+void Viewer::drawDart(QPainter& painter, unsigned int order) const
 {
     painter.save();
     drawHalfDart(painter,order);
