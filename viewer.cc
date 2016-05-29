@@ -10,7 +10,7 @@ static const qreal alpha = M_PI/5.;
 static const qreal rad_to_deg = 180/M_PI;
 
 Viewer::Viewer(QWidget* parent)
-    : QWidget(parent), scale(200), translation_current(0,0), translation_start(0,0), display_edges(false), inner_radius(.5)
+    : QWidget(parent), scale(200), translation_current(0,0), translation_start(0,0), display_edges(false), inner_radius(1), order(7)
 {
 }
 
@@ -43,10 +43,10 @@ void Viewer::drawHalfKite(QPainter& painter, unsigned int order) const
         return;
     }
 
-    static const QPointF points[] = {
+    const QPointF points[] = {
         QPointF(0,0),
-        QPointF(phi*cos(alpha),phi*sin(alpha)),
-        QPointF(phi,0)
+        QPointF(inner_radius*phi*cos(alpha),inner_radius*phi*sin(alpha)),
+        QPointF(inner_radius*phi,0)
     };
 
     painter.setPen(kite_color);
@@ -82,9 +82,9 @@ void Viewer::drawHalfDart(QPainter& painter, unsigned int order) const
         return;
     }
 
-    static const QPointF points[] = {
+    const QPointF points[] = {
         QPointF(0,0),
-        QPointF(cos(3*alpha),sin(3*alpha)),
+        QPointF(inner_radius*cos(3*alpha),inner_radius*sin(3*alpha)),
         QPointF(1,0)
     };
 
@@ -138,6 +138,22 @@ void Viewer::keyPressEvent(QKeyEvent* event)
         return;
     }
 
+    if (event->text() == "o")
+    {
+        order ++;
+        event->accept();
+        update();
+        return;
+    }
+
+    if (event->text() == "p")
+    {
+        order --;
+        event->accept();
+        update();
+        return;
+    }
+
     if (event->text() == "+")
     {
         inner_radius += .05;
@@ -165,7 +181,6 @@ void Viewer::paintEvent(QPaintEvent* event)
     painter.translate(translation_current);
     painter.scale(scale,scale);
 
-    unsigned int order = 7;
     for (int kk=0; kk<5; kk++)
     {
         painter.rotate(2*alpha*rad_to_deg);

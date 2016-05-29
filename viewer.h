@@ -20,6 +20,7 @@ class Viewer : public QWidget
         QPointF translation_start;
         bool display_edges;
         qreal inner_radius;
+        unsigned int order;
     protected:
         void drawHalfKite(QPainter& painter, unsigned int order) const;
         void drawHalfDart(QPainter& painter, unsigned int order) const;
