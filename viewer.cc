@@ -180,6 +180,7 @@ void Viewer::paintEvent(QPaintEvent* event)
     painter.translate(width()/2,height()/2);
     painter.translate(translation_current);
     painter.scale(scale,scale);
+    painter.rotate(alpha*rad_to_deg/2);
 
     for (int kk=0; kk<5; kk++)
     {
